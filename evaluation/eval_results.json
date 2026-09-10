@@ -1,0 +1,600 @@
+{
+  "summary": {
+    "Dense only": {
+      "faithfulness": 0.485,
+      "answer_relevancy": 0.5,
+      "context_relevancy": 0.417,
+      "n_questions": 8
+    },
+    "Hybrid (BM25+Dense)": {
+      "faithfulness": 0.469,
+      "answer_relevancy": 0.5,
+      "context_relevancy": 0.417,
+      "n_questions": 8
+    },
+    "Hybrid + Reranked": {
+      "faithfulness": 0.551,
+      "answer_relevancy": 0.562,
+      "context_relevancy": 0.442,
+      "n_questions": 8
+    }
+  },
+  "detailed": [
+    {
+      "question": "What is dropout and why is it used in neural networks?",
+      "retriever": "Dense only",
+      "answer": "Dropout is a technique used in training neural networks to reduce overfitting by randomly ignoring some neurons during training (Excerpt 1). It is used to encourage the network to learn more robust features, make the model generalize better to new data, and acts like training many smaller networks and averaging them (Excerpt 2). By randomly turning off some neurons, dropout prevents the network from relying too much on any single neuron, which helps in reducing overfitting (Excerpt 1). Additionally, dropout is considered a regularization method, which forces the model to not rely on any one part (Excerpt 3).",
+      "context_chunks": [
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 61
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 62
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 31
+        }
+      ],
+      "scores": {
+        "faithfulness": 0.8,
+        "answer_relevancy": 1.0,
+        "context_relevancy": 0.867
+      }
+    },
+    {
+      "question": "What is dropout and why is it used in neural networks?",
+      "retriever": "Hybrid (BM25+Dense)",
+      "answer": "Dropout is a technique used in training neural networks to reduce overfitting by randomly ignoring some neurons during training (Excerpt 1). It is used to encourage the network to learn more robust features and to make the model generalize better to new data (Excerpt 3). By dropping out neurons, the network learns not to rely too much on any single neuron, effectively acting like training many smaller networks and averaging them (Excerpt 3). This helps prevent overfitting, as stated in the initial description of dropout (Excerpt 1).",
+      "context_chunks": [
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 61
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 26
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 62
+        }
+      ],
+      "scores": {
+        "faithfulness": 0.75,
+        "answer_relevancy": 1.0,
+        "context_relevancy": 0.6
+      }
+    },
+    {
+      "question": "What is dropout and why is it used in neural networks?",
+      "retriever": "Hybrid + Reranked",
+      "answer": "Dropout is a technique used in training neural networks to reduce overfitting by randomly ignoring some neurons during training (Excerpt 1). It is used to encourage the network to learn more robust features, make the model generalize better to new data, and acts like training many smaller networks and averaging them (Excerpt 2). By dropping out neurons, the network prevents relying too much on any single neuron, which helps in reducing overfitting (Excerpt 1). Dropout is also considered a component of architecture design, which refers to how a neural network is structured (Excerpt 3).",
+      "context_chunks": [
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 61
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 62
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 23
+        }
+      ],
+      "scores": {
+        "faithfulness": 0.83,
+        "answer_relevancy": 1.0,
+        "context_relevancy": 0.667
+      }
+    },
+    {
+      "question": "What is the difference between L1 and L2 regularization?",
+      "retriever": "Dense only",
+      "answer": "L1 Regularization adds a penalty proportional to the absolute values of weights, encouraging sparsity, whereas L2 Regularization adds a penalty proportional to the square of the weights, keeping weights small and smooth (Excerpt 1). L1 Regularization pushes some weights all the way to zero, making it useful for feature selection, whereas L2 Regularization makes the model prefer smaller weights, helping to keep the model simpler and less likely to overfit (Excerpt 2). This difference in penalty calculation and effect on the model is the key distinction between L1 and L2 regularization (Excerpt 2).",
+      "context_chunks": [
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 31
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 33
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 29
+        }
+      ],
+      "scores": {
+        "faithfulness": 0.75,
+        "answer_relevancy": 1.0,
+        "context_relevancy": 0.633
+      }
+    },
+    {
+      "question": "What is the difference between L1 and L2 regularization?",
+      "retriever": "Hybrid (BM25+Dense)",
+      "answer": "L1 Regularization adds a penalty proportional to the absolute values of weights, encouraging sparsity, whereas L2 Regularization adds a penalty proportional to the square of the weights, keeping weights small and smooth (Excerpt 1). L1 Regularization pushes some weights to zero, making it useful for feature selection, while L2 Regularization makes the model prefer smaller weights, helping to keep the model simpler and less likely to overfit (Excerpt 2). Both types of regularization are listed among common regularization methods (Excerpt 3).",
+      "context_chunks": [
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 31
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 33
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 30
+        }
+      ],
+      "scores": {
+        "faithfulness": 0.75,
+        "answer_relevancy": 1.0,
+        "context_relevancy": 0.7
+      }
+    },
+    {
+      "question": "What is the difference between L1 and L2 regularization?",
+      "retriever": "Hybrid + Reranked",
+      "answer": "L1 Regularization adds a penalty proportional to the absolute values of weights, encouraging sparsity, whereas L2 Regularization adds a penalty proportional to the square of the weights, keeping weights small and smooth (Excerpt 1). L1 Regularization pushes some weights all the way to zero, making it useful for feature selection, while L2 Regularization makes the model prefer smaller weights, helping to keep the model simpler and less likely to overfit (Excerpt 2). The key difference lies in their penalty functions, with L1 using absolute values and L2 using squared values (Excerpt 2). Both are listed as common regularization methods (Excerpt 3).",
+      "context_chunks": [
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 31
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 33
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 30
+        }
+      ],
+      "scores": {
+        "faithfulness": 0.75,
+        "answer_relevancy": 1.0,
+        "context_relevancy": 0.7
+      }
+    },
+    {
+      "question": "How does backpropagation compute gradients?",
+      "retriever": "Dense only",
+      "answer": "Backpropagation computes gradients using the chain rule of calculus (Excerpt 2). This process involves propagating the error backward through the network, layer by layer, to calculate how much each weight contributed to the error (Excerpt 2). A gradient, in this context, is the vector of partial derivatives of a function, indicating how much the output (loss) would change if each input (weight) were changed slightly (Excerpt 3). The computation of these gradients tells us the direction to adjust weights to reduce error (Excerpt 2).",
+      "context_chunks": [
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 26
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 27
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 15
+        }
+      ],
+      "scores": {
+        "faithfulness": 0.75,
+        "answer_relevancy": 1.0,
+        "context_relevancy": 0.633
+      }
+    },
+    {
+      "question": "How does backpropagation compute gradients?",
+      "retriever": "Hybrid (BM25+Dense)",
+      "answer": "Backpropagation computes gradients using the chain rule of calculus (Excerpt 1). It is a specific way to compute the gradient of the loss function with respect to every weight in the network efficiently (Excerpt 2). This process involves propagating the error backward through the network, layer by layer, to calculate how much each weight contributed to the error (Excerpt 1). The gradients are then used to update the weights (Excerpt 3).",
+      "context_chunks": [
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 27
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 26
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 16
+        }
+      ],
+      "scores": {
+        "faithfulness": 0.75,
+        "answer_relevancy": 1.0,
+        "context_relevancy": 0.767
+      }
+    },
+    {
+      "question": "How does backpropagation compute gradients?",
+      "retriever": "Hybrid + Reranked",
+      "answer": "Backpropagation computes gradients using the chain rule of calculus (Excerpt 2). This process involves propagating the error backward through the network, layer by layer, to calculate how much each weight contributed to the error (Excerpt 2). The gradients are computed with respect to every weight in the network, which is done efficiently (Excerpt 1). This computation of gradients is a key step in the gradient-based learning process, allowing the model to update its weights and improve its performance (Excerpt 3).",
+      "context_chunks": [
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 26
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 27
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 16
+        }
+      ],
+      "scores": {
+        "faithfulness": 0.75,
+        "answer_relevancy": 1.0,
+        "context_relevancy": 0.767
+      }
+    },
+    {
+      "question": "What is batch normalization and what problem does it solve?",
+      "retriever": "Dense only",
+      "answer": "Batch normalization is listed as a common regularization method (Excerpt 2). However, the provided excerpts do not explicitly define what batch normalization is or the specific problem it solves (Excerpt 1, Excerpt 2, Excerpt 3). \n\nSince the excerpts do not provide a detailed explanation of batch normalization, the answer to its definition and the problem it solves cannot be found. \nI don't know based on the provided documents.",
+      "context_chunks": [
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 29
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 30
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 39
+        }
+      ],
+      "scores": {
+        "faithfulness": 0.75,
+        "answer_relevancy": 0.0,
+        "context_relevancy": 0.067
+      }
+    },
+    {
+      "question": "What is batch normalization and what problem does it solve?",
+      "retriever": "Hybrid (BM25+Dense)",
+      "answer": "Batch normalization is listed as a regularization method (Excerpt 1), but its specific purpose or the problem it solves is not explicitly stated in the provided excerpts. It is also mentioned as a component in architecture design (Excerpt 3), but again, its purpose is not described. Therefore, based on the provided information, the function or problem that batch normalization solves cannot be determined.",
+      "context_chunks": [
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 30
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 29
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 23
+        }
+      ],
+      "scores": {
+        "faithfulness": 0.75,
+        "answer_relevancy": 0.0,
+        "context_relevancy": 0.133
+      }
+    },
+    {
+      "question": "What is batch normalization and what problem does it solve?",
+      "retriever": "Hybrid + Reranked",
+      "answer": "Batch normalization is listed as a common regularization method (Excerpt 2). However, the provided excerpts do not explicitly explain what batch normalization is or the specific problem it solves (Excerpt 1, Excerpt 2, Excerpt 3). \n\nSince the excerpts do not provide a detailed explanation of batch normalization, the answer to what problem it solves cannot be determined from the given information. \n\nI don't know based on the provided documents.",
+      "context_chunks": [
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 39
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 30
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 37
+        }
+      ],
+      "scores": {
+        "faithfulness": 0.75,
+        "answer_relevancy": 0.0,
+        "context_relevancy": 0.067
+      }
+    },
+    {
+      "question": "What is the vanishing gradient problem?",
+      "retriever": "Dense only",
+      "answer": "I don't know based on the provided documents.",
+      "context_chunks": [
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 15
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 14
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 37
+        }
+      ],
+      "scores": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0,
+        "context_relevancy": 0.133
+      }
+    },
+    {
+      "question": "What is the vanishing gradient problem?",
+      "retriever": "Hybrid (BM25+Dense)",
+      "answer": "I don't know based on the provided documents.",
+      "context_chunks": [
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 15
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 37
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 17
+        }
+      ],
+      "scores": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0,
+        "context_relevancy": 0.133
+      }
+    },
+    {
+      "question": "What is the vanishing gradient problem?",
+      "retriever": "Hybrid + Reranked",
+      "answer": "I don't know based on the provided documents.",
+      "context_chunks": [
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 15
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 14
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 17
+        }
+      ],
+      "scores": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0,
+        "context_relevancy": 0.2
+      }
+    },
+    {
+      "question": "How does the Adam optimizer differ from standard gradient descent?",
+      "retriever": "Dense only",
+      "answer": "I don't know based on the provided documents.",
+      "context_chunks": [
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 8
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 17
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 14
+        }
+      ],
+      "scores": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0,
+        "context_relevancy": 0.133
+      }
+    },
+    {
+      "question": "How does the Adam optimizer differ from standard gradient descent?",
+      "retriever": "Hybrid (BM25+Dense)",
+      "answer": "I don't know based on the provided documents.",
+      "context_chunks": [
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 17
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 15
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 8
+        }
+      ],
+      "scores": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0,
+        "context_relevancy": 0.067
+      }
+    },
+    {
+      "question": "How does the Adam optimizer differ from standard gradient descent?",
+      "retriever": "Hybrid + Reranked",
+      "answer": "I don't know based on the provided documents.",
+      "context_chunks": [
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 28
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 17
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 16
+        }
+      ],
+      "scores": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0,
+        "context_relevancy": 0.133
+      }
+    },
+    {
+      "question": "What is a convolutional neural network used for?",
+      "retriever": "Dense only",
+      "answer": "I don't know based on the provided documents.",
+      "context_chunks": [
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 4
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 26
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 7
+        }
+      ],
+      "scores": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0,
+        "context_relevancy": 0.067
+      }
+    },
+    {
+      "question": "What is a convolutional neural network used for?",
+      "retriever": "Hybrid (BM25+Dense)",
+      "answer": "I don't know based on the provided documents.",
+      "context_chunks": [
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 26
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 6
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 4
+        }
+      ],
+      "scores": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0,
+        "context_relevancy": 0.133
+      }
+    },
+    {
+      "question": "What is a convolutional neural network used for?",
+      "retriever": "Hybrid + Reranked",
+      "answer": "A convolutional neural network is used for images (Excerpt 1). This is stated under the \"Specialized Layers\" section, which mentions that convolutional layers are used for images. No further details are provided about its specific applications or functionalities beyond this (Excerpt 1).",
+      "context_chunks": [
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 25
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 4
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 26
+        }
+      ],
+      "scores": {
+        "faithfulness": 0.5,
+        "answer_relevancy": 0.5,
+        "context_relevancy": 0.2
+      }
+    },
+    {
+      "question": "What is overfitting and how can it be prevented?",
+      "retriever": "Dense only",
+      "answer": "Overfitting occurs when a model \"memorizes\" the training data instead of learning patterns, resulting in poor predictions on new data (Excerpt 1). It happens when a model learns the training data too well, including noise, and performs poorly on new, unseen data (Excerpt 2). Overfitting can be prevented using techniques such as regularization, which helps improve the model's generalization ability (Excerpt 2), and early stopping, a technique used during training to prevent overfitting by stopping the training process when the error on validation data starts to increase (Excerpt 3).",
+      "context_chunks": [
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 38
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 29
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 50
+        }
+      ],
+      "scores": {
+        "faithfulness": 0.83,
+        "answer_relevancy": 1.0,
+        "context_relevancy": 0.8
+      }
+    },
+    {
+      "question": "What is overfitting and how can it be prevented?",
+      "retriever": "Hybrid (BM25+Dense)",
+      "answer": "Overfitting occurs when a model learns the training data too well, including noise, and performs poorly on new, unseen data (Excerpt 1). It happens when the model \"memorizes\" the data instead of learning patterns, resulting in poor predictions on new data (Excerpt 2). Regularization techniques, such as dropout, batch normalization, and weight decay, can be used to prevent overfitting (Excerpt 3). These techniques help improve the model's generalization ability and prevent it from fitting the training data too closely (Excerpt 1).",
+      "context_chunks": [
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 29
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 38
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 25
+        }
+      ],
+      "scores": {
+        "faithfulness": 0.75,
+        "answer_relevancy": 1.0,
+        "context_relevancy": 0.8
+      }
+    },
+    {
+      "question": "What is overfitting and how can it be prevented?",
+      "retriever": "Hybrid + Reranked",
+      "answer": "Overfitting occurs when a model learns the training data too well, including noise, and performs poorly on new, unseen data, essentially \"memorizing\" the data instead of learning patterns (Excerpt 1, Excerpt 3). This happens when the model fits the training data perfectly but fails to make good predictions on new data (Excerpt 3). Overfitting can be prevented using techniques such as regularization, which helps improve the model's generalization ability (Excerpt 1), and early stopping, a technique used during training to prevent the model from memorizing the training data (Excerpt 2).",
+      "context_chunks": [
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 29
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 50
+        },
+        {
+          "source_file": "DL - UNIT 2.pdf",
+          "page_number": 38
+        }
+      ],
+      "scores": {
+        "faithfulness": 0.83,
+        "answer_relevancy": 1.0,
+        "context_relevancy": 0.8
+      }
+    }
+  ]
+}

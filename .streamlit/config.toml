@@ -1,0 +1,22 @@
+[theme]
+# Match the design system in app.py exactly.
+# Streamlit reads this before the first render, so the background
+# doesn't flicker white before the custom CSS loads.
+base            = "dark"
+backgroundColor         = "#111318"
+secondaryBackgroundColor = "#1a1d24"
+textColor       = "#dde1ee"
+primaryColor    = "#4361ee"
+font            = "sans serif"
+
+[server]
+# Allow PDF uploads up to 50 MB
+maxUploadSize = 50
+# Required false for Streamlit Cloud (it handles CORS itself)
+enableCORS    = false
+# Disable XSRF protection — needed for Streamlit Cloud's proxy
+enableXsrfProtection = false
+
+[browser]
+# Suppress the "Deploy this app" button
+gatherUsageStats = false

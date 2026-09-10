@@ -1,0 +1,14 @@
+# ── Core RAG dependencies ──────────────────────────────────────────────────────
+pymupdf>=1.24.0               # PDF parsing (imports as fitz; ships pre-built Linux wheels)
+sentence-transformers>=3.0.0  # Local bi-encoder + cross-encoder (all-MiniLM, ms-marco)
+chromadb>=0.5.0               # Vector store — persists to disk in ./chroma_db
+rank-bm25>=0.2.2              # BM25 sparse retrieval index
+groq>=0.9.0                   # Groq API client (Llama-3.3-70b, free tier)
+python-dotenv>=1.0.0          # Load .env file locally; no-op on Streamlit Cloud
+
+# ── Web UI ─────────────────────────────────────────────────────────────────────
+streamlit>=1.36.0
+
+# ── Testing ────────────────────────────────────────────────────────────────────
+pytest>=8.0.0
+pytest-cov>=5.0.0

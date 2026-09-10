@@ -1,0 +1,48 @@
+# ── Secrets — NEVER commit these ─────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+secrets/
+
+# ── ChromaDB local persistence directories ───────────────────────────────────
+chroma_db/
+test_chroma_db/
+
+# ── Streamlit config ──────────────────────────────────────────────────────────
+# config.toml and secrets.toml.example ARE committed (needed by Streamlit Cloud)
+# secrets.toml is NOT committed (contains real API keys)
+.streamlit/secrets.toml
+
+# ── Python cache ─────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+
+# ── Virtual environments ──────────────────────────────────────────────────────
+venv/
+.venv/
+env/
+.env/
+
+# ── Test & coverage artifacts ─────────────────────────────────────────────────
+.pytest_cache/
+.coverage
+htmlcov/
+*.log
+
+# ── IDE ───────────────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ── OS ────────────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
