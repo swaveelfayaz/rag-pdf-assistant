@@ -46,7 +46,7 @@ import re
 from dataclasses import dataclass, field
 from typing import List
 
-from groq import Groq
+from generation.llm_backends import get_llm_backend
 
 from utils.config import config
 from utils.exceptions import GenerationError
@@ -83,23 +83,7 @@ class GroundedAnswer:
     raw_context: List[dict] = field(default_factory=list)
 
 
-# ── Client singleton ──────────────────────────────────────────────────────────
 
-_client: Groq | None = None
-
-
-def _get_client() -> Groq:
-    """Lazily initialise the Groq client."""
-    global _client
-    if _client is None:
-        if not config.groq_api_key:
-            raise GenerationError(
-                "GROQ_API_KEY is not set. Get a free key at "
-                "https://console.groq.com and add it to your .env file."
-            )
-        _client = Groq(api_key=config.groq_api_key)
-        log.info("Groq client initialised (model: %s).", config.groq_model)
-    return _client
 
 
 # ── Prompt Templates ──────────────────────────────────────────────────────────
@@ -138,7 +122,7 @@ STRICT RULES (follow all of them):
 3. If the answer cannot be found in ANY of the provided excerpts, respond with EXACTLY this sentence and nothing else:
    "I don't know based on the provided documents."
 4. Do NOT add knowledge from outside the excerpts — no training data, no general knowledge.
-5. Do NOT speculate or infer beyond what is explicitly stated.
+5. You may make basic logical deductions from the text, but do NOT speculate or guess beyond what is supported by the excerpts.
 6. FORMAT your answer for easy reading:
    - Start with one short sentence that directly answers the question.
    - Use **bold** to highlight the key term or concept being defined.
@@ -158,6 +142,9 @@ Cite the specific excerpts that support your answer using (Excerpt N) notation."
 # Exact phrase the model must use when it cannot answer from context.
 # This is what we detect to set is_grounded=False.
 _IDONTKNOW_PHRASE = "i don't know based on the provided documents"
+
+def is_answer_grounded(answer_text: str) -> bool:
+    return _IDONTKNOW_PHRASE not in answer_text.lower()
 
 
 # ── Context Building ──────────────────────────────────────────────────────────
@@ -194,7 +181,7 @@ def _build_numbered_context(context_chunks: List[dict]) -> str:
 
 # ── Citation Parsing ──────────────────────────────────────────────────────────
 
-def _parse_cited_excerpts(answer: str, context_chunks: List[dict]) -> List[dict]:
+def parse_cited_excerpts(answer: str, context_chunks: List[dict]) -> List[dict]:
     """
     Extract the chunks that the model explicitly cited in its answer.
 
@@ -287,7 +274,7 @@ def generate_answer(question: str, context_chunks: List[dict]) -> GroundedAnswer
             raw_context=[],
         )
 
-    client = _get_client()
+    backend = get_llm_backend()
     context_str = _build_numbered_context(context_chunks)
     user_message = _CONTEXT_TEMPLATE.format(
         context=context_str,
@@ -295,38 +282,30 @@ def generate_answer(question: str, context_chunks: List[dict]) -> GroundedAnswer
     )
 
     log.info(
-        "Calling Groq (%s) — %d excerpts, ~%d chars of context...",
-        config.groq_model,
+        "Calling LLM Backend (%s) — %d excerpts, ~%d chars of context...",
+        config.litellm_model,
         len(context_chunks),
         len(context_str),
     )
 
-    try:
-        response = client.chat.completions.create(
-            model=config.groq_model,
-            messages=[
-                {"role": "system",  "content": _SYSTEM_PROMPT},
-                {"role": "user",    "content": user_message},
-            ],
-            temperature=config.llm_temperature,
-            max_tokens=config.max_tokens,
-        )
-        answer_text = response.choices[0].message.content.strip()
-        tokens_used = response.usage.total_tokens if response.usage else 0
-        log.info("Generation complete — %d tokens used.", tokens_used)
+    messages = [
+        {"role": "system",  "content": _SYSTEM_PROMPT},
+        {"role": "user",    "content": user_message},
+    ]
 
-    except Exception as exc:
-        raise GenerationError(
-            f"Groq API call failed: {exc}. "
-            "Check your GROQ_API_KEY in .env and your network connection."
-        ) from exc
+    answer_text, tokens_used = backend.generate(
+        messages=messages,
+        temperature=config.llm_temperature,
+        max_tokens=config.max_tokens,
+    )
+    log.info("Generation complete — %d tokens used.", tokens_used)
 
     # Detect whether the model answered or said "I don't know"
-    is_grounded = _IDONTKNOW_PHRASE not in answer_text.lower()
+    is_grounded = is_answer_grounded(answer_text)
 
     # Parse which excerpts were explicitly cited
     citations = (
-        _parse_cited_excerpts(answer_text, context_chunks)
+        parse_cited_excerpts(answer_text, context_chunks)
         if is_grounded
         else []
     )
@@ -336,4 +315,39 @@ def generate_answer(question: str, context_chunks: List[dict]) -> GroundedAnswer
         citations=citations,
         is_grounded=is_grounded,
         raw_context=context_chunks,
+    )
+
+
+def generate_answer_stream(question: str, context_chunks: List[dict]):
+    """
+    Like generate_answer, but returns a stream of text chunks.
+    app.py is responsible for accumulating the string and calling parse_cited_excerpts.
+    """
+    if not context_chunks:
+        yield "I don't know based on the provided documents. No relevant excerpts were found in your uploaded documents."
+        return
+
+    backend = get_llm_backend()
+    context_str = _build_numbered_context(context_chunks)
+    user_message = _CONTEXT_TEMPLATE.format(
+        context=context_str,
+        question=question,
+    )
+
+    log.info(
+        "Streaming LLM Backend (%s) — %d excerpts, ~%d chars of context...",
+        config.litellm_model,
+        len(context_chunks),
+        len(context_str),
+    )
+
+    messages = [
+        {"role": "system",  "content": _SYSTEM_PROMPT},
+        {"role": "user",    "content": user_message},
+    ]
+
+    yield from backend.generate_stream(
+        messages=messages,
+        temperature=config.llm_temperature,
+        max_tokens=config.max_tokens,
     )

@@ -4,6 +4,7 @@ sentence-transformers>=3.0.0  # Local bi-encoder + cross-encoder (all-MiniLM, ms
 chromadb>=0.5.0               # Vector store — persists to disk in ./chroma_db
 rank-bm25>=0.2.2              # BM25 sparse retrieval index
 groq>=0.9.0                   # Groq API client (Llama-3.3-70b, free tier)
+litellm>=1.0.0                # Universal LLM backend
 python-dotenv>=1.0.0          # Load .env file locally; no-op on Streamlit Cloud
 
 # ── Web UI ─────────────────────────────────────────────────────────────────────

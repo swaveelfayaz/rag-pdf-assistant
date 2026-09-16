@@ -54,7 +54,7 @@ from ingestion.loader import load_pdf
 from ingestion.chunker import chunk_documents
 from ingestion.embedder import embed_and_store, get_collection_count
 from retrieval.retriever import retrieve_reranked
-from generation.llm_chain import generate_answer, GroundedAnswer
+from generation.llm_chain import generate_answer_stream, parse_cited_excerpts, is_answer_grounded
 from utils.exceptions import (
     DocumentLoadError,
     EmptyDocumentError,
@@ -993,43 +993,43 @@ if question:
             st.error(f"Retrieval failed: {e}")
             chunks = []
 
-    if chunks:
-        with st.spinner("Generating answer..."):
-            try:
-                grounded: GroundedAnswer = generate_answer(question, chunks)
-            except GenerationError as e:
-                # Store error as assistant message
-                st.session_state.messages.append({
-                    "role": "assistant",
-                    "content": f"Generation failed: {e}",
-                    "sources": [],
-                    "is_grounded": False,
-                })
-                st.rerun()
-
-        # Build the sources list from GroundedAnswer.citations
-        # Citations already have text, source_file, page_number, rerank_score
-        sources = [
-            {
-                "source_file": c["source_file"],
-                "page_number":  c["page_number"],
-                "text":         c.get("text", ""),
-                "rerank_score": c.get("rerank_score", c.get("score", 0)),
-                "score":        c.get("score", 0),
-            }
-            for c in grounded.citations
-        ]
-        answer_text = grounded.answer
-        is_grounded = grounded.is_grounded
-    else:
-        answer_text = (
-            "I don't know based on the provided documents. "
-            "No relevant excerpts were found."
+    with st.chat_message("assistant", avatar=None):
+        st.markdown(
+            '<span class="msg-label rag-label">DocMind</span>',
+            unsafe_allow_html=True,
         )
-        sources     = []
-        is_grounded = False
+        if chunks:
+            try:
+                stream = generate_answer_stream(question, chunks)
+                answer_text = st.write_stream(stream)
+                is_grounded = is_answer_grounded(answer_text)
+                citations = parse_cited_excerpts(answer_text, chunks) if is_grounded else []
+            except GenerationError as e:
+                answer_text = f"Generation failed: {e}"
+                citations = []
+                is_grounded = False
+                st.error(answer_text)
+            
+            sources = [
+                {
+                    "source_file": c["source_file"],
+                    "page_number":  c["page_number"],
+                    "text":         c.get("text", ""),
+                    "rerank_score": c.get("rerank_score", c.get("score", 0)),
+                    "score":        c.get("score", 0),
+                }
+                for c in citations
+            ]
+        else:
+            answer_text = (
+                "I don't know based on the provided documents. "
+                "No relevant excerpts were found."
+            )
+            st.markdown(answer_text)
+            sources     = []
+            is_grounded = False
 
-    # 3. Add assistant message and rerun to render it
+    # 3. Add assistant message and rerun to render it fully with sources
     st.session_state.messages.append({
         "role":        "assistant",
         "content":     answer_text,

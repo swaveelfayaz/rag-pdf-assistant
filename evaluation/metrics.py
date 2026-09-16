@@ -53,22 +53,12 @@ from __future__ import annotations
 import re
 from typing import List
 
-from groq import Groq
+from generation.llm_backends import get_llm_backend
 
 from utils.config import config
 from utils.logger import get_logger
 
 log = get_logger(__name__)
-
-# Module-level Groq client (reuse connection)
-_client: Groq | None = None
-
-
-def _get_client() -> Groq:
-    global _client
-    if _client is None:
-        _client = Groq(api_key=config.groq_api_key)
-    return _client
 
 
 def _ask_score(prompt: str) -> float:
@@ -89,13 +79,9 @@ def _ask_score(prompt: str) -> float:
         Float between 0.0 and 1.0, or 0.5 if parsing fails.
     """
     try:
-        resp = _get_client().chat.completions.create(
-            model=config.groq_model,
-            messages=[{"role": "user", "content": prompt}],
-            temperature=0,
-            max_tokens=10,  # We only need a single number
-        )
-        raw = resp.choices[0].message.content.strip()
+        backend = get_llm_backend()
+        messages = [{"role": "user", "content": prompt}]
+        raw, _ = backend.generate(messages, temperature=0, max_tokens=10)
         # Extract the first decimal/integer number from the response
         match = re.search(r"\d+\.?\d*", raw)
         if match:

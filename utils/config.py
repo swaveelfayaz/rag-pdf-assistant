@@ -58,23 +58,12 @@ class Config:
     """
 
     # ── LLM / API ────────────────────────────────────────────────────────────
-    groq_api_key: str = field(
-        default_factory=lambda: os.getenv("GROQ_API_KEY", "")
+    # litellm_model is the full provider/model_name string.
+    litellm_model: str = field(
+        default_factory=lambda: os.getenv("LITELLM_MODEL", "groq/llama-3.3-70b-versatile")
     )
-    # Model must be on Groq's free tier. As of 2025, llama-3.3-70b-versatile
-    # is the best freely available model on Groq. Check groq.com/docs for
-    # current availability — free-tier models change frequently.
-    groq_model: str = field(
-        default_factory=lambda: os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
-    )
-    # ollama_model is the fallback for fully offline usage.
-    # Run `ollama pull llama3.2` locally to enable this.
-    ollama_model: str = field(
-        default_factory=lambda: os.getenv("OLLAMA_MODEL", "llama3.2")
-    )
-    # Which backend to use: "groq" or "ollama"
-    llm_backend: str = field(
-        default_factory=lambda: os.getenv("LLM_BACKEND", "groq")
+    ollama_base_url: str = field(
+        default_factory=lambda: os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
     )
 
     # ── Embedding Model ───────────────────────────────────────────────────────
@@ -161,22 +150,10 @@ class Config:
         We raise ConfigError (not ValueError) so that callers can catch
         it specifically without accidentally catching unrelated errors.
         """
-        valid_backends = {"groq", "ollama"}
-        if self.llm_backend not in valid_backends:
-            raise ConfigError(
-                f"LLM_BACKEND must be one of {valid_backends}, "
-                f"got '{self.llm_backend}'"
-            )
-
-        # Only require the API key if we're actually using Groq.
-        # This lets the project run fully offline with Ollama without
-        # needing to set a dummy key.
-        if self.llm_backend == "groq" and not self.groq_api_key:
-            raise ConfigError(
-                "GROQ_API_KEY is required when LLM_BACKEND='groq'. "
-                "Get a free key at https://console.groq.com, then add it "
-                "to your .env file."
-            )
+        # LiteLLM handles API key validation when the completion is called,
+        # so we don't need to manually validate keys here.
+        if not self.litellm_model:
+            raise ConfigError("LITELLM_MODEL must be provided.")
 
         if self.chunk_size <= 0:
             raise ConfigError(
